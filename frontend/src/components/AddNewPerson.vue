@@ -88,6 +88,7 @@
 import axios from "axios";
 
 export default {
+  props: ['personsListFlag'],
   data() {
     return {
       fatherFlagConst: 0,
@@ -115,7 +116,6 @@ export default {
         death: this.death,
         motherId: this.motherId,
         fatherId: this.fatherId
-
       };
       axios.post('/Main/savePerson', formData)
         .then(response => {
@@ -126,6 +126,7 @@ export default {
         });
       console.log('submited');
       this.onReset();
+
     },
     onReset() {
       this.name = '';

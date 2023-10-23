@@ -34,6 +34,7 @@
   ></persons-list>
   <add-new-person
     v-if="addPersonFlag"
+    :persons-list-flag="this.personsListFlag"
   ></add-new-person>
 
 
@@ -89,17 +90,17 @@ export default {
       this.addPersonFlag = false;
       this.personsListFlag = false;
     },
-    addPersonPanelChanger()
+    async addPersonPanelChanger()
     {
       this.disableFlags();
       this.addPersonFlag = true;
     },
     personsListPanelChanger()
     {
+      this.fetchPeople();
       this.disableFlags();
       this.personsListFlag = true;
     }
-
   }
 };
 </script>
