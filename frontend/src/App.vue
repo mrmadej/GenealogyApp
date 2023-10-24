@@ -1,12 +1,4 @@
 <template>
-<!--  <div class="q-pa-md q-gutter-sm">-->
-<!--    <q-btn style="background: #FF0080; color: white" label="Fuchsia" />-->
-<!--    <q-btn flat style="color: #FF0080" label="Fuchsia Flat" />-->
-<!--    <q-btn style="background: goldenrod; color: white" label="Goldenrod" />-->
-<!--    <q-btn outline style="color: goldenrod;" label="Goldenrod" />-->
-<!--    <q-btn color="grey-4" text-color="purple" glossy unelevated icon="camera_enhance" label="Purple text" />-->
-<!--  </div>-->
-
   <div class="q-pa-md q-gutter-y-sm">
     <q-toolbar class="text-primary">
       <q-btn flat round dense icon="menu" />
@@ -16,28 +8,19 @@
       <q-btn flat round dense @click="addPersonPanelChanger">Add Person </q-btn>
       <q-btn flat round dense @click="personsListPanelChanger">Show Persons </q-btn>
       <q-btn flat round dense icon="more_vert" />
-
     </q-toolbar>
   </div>
-<!--  <div class="q-pa-md">-->
-<!--    <q-table-->
-<!--      title="Persons"-->
-<!--      :rows="people"-->
-<!--      :columns="kolumny"-->
-<!--      row-key="name"-->
-<!--    />-->
-<!--  </div>-->
+
   <persons-list
     v-if="personsListFlag"
-    :columns="kolumny"
+    :columns="columns"
     :rows="people"
   ></persons-list>
+
   <add-new-person
     v-if="addPersonFlag"
     :persons-list-flag="this.personsListFlag"
   ></add-new-person>
-
-
 </template>
 
 
@@ -55,7 +38,7 @@ export default {
   },
   data() {
     return {
-       kolumny : [
+       columns : [
         { name: 'id', label: 'Id', field: 'id' },
         { name: 'name', label: 'Imie', field: 'name' },
         { name: 'surname', label: 'Nazwisko', field: 'surname' },
@@ -64,6 +47,8 @@ export default {
         { name: 'fatherName', label: 'Imię Ojca', field: row => row.father ? row.father.name : '-' },
         { name: 'birth', label: 'Data urodzenia', field: row => row.birth ? row.birth : '-'  },
         { name: 'death', label: 'Data zgonu', field: row => row.death ? row.death : '-'  },
+        { name: 'action', label: 'Action'},
+
        ],
       people: [],
       personsListFlag: true,
@@ -100,7 +85,7 @@ export default {
       this.fetchPeople();
       this.disableFlags();
       this.personsListFlag = true;
-    }
+    },
   }
 };
 </script>
