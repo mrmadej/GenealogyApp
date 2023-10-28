@@ -86,23 +86,60 @@
 
 <script>
 import axios from "axios";
+import {isBooleanLike} from "eslint-plugin-vue/lib/utils/ts-utils/typescript";
 
 export default {
-  props: ['personsListFlag'],
+  props: {
+    person: {
+      type: Object,
+      default: () => ({}),
+      id: Number,
+      name: String,
+      surname: String,
+      birth: Date,
+      death: Date,
+      father: Object,
+      mother: Object
+    },
+  },
+  mounted() {
+    console.log('W add new person component: ');
+    //console.log(this.person.id);
+  },
+
+  // inject: {
+  //   person: {
+  //     type: Object,
+  //     default: () => ({}),
+  //     id: Number,
+  //     name: String,
+  //     surname: String,
+  //     birth: Date,
+  //     death: Date,
+  //     father: Object,
+  //     mother: Object
+  //   },
+  //
+  // },
   data() {
+    const personData = this.person || {};
+    const father = personData.father || {};
+    const mother = personData.mother || {};
+
     return {
+      personId: personData.id || -1,
       fatherFlagConst: 0,
       motherFlagConst: 1,
-      name: '',
-      surname: '',
+      name: personData.name || '',
+      surname: personData.surname || '',
       birth: null,
       death: null,
       birthFlag: false,
       deathFlag: false,
-      searchFather: '',
-      searchMother: '',
-      fatherId: null,
-      motherId: null,
+      fatherId: father.id || null,
+      motherId: mother.id || null,
+      searchFather: `${father.name || ''} ${father.surname || ''}`,
+      searchMother: `${mother.name || ''} ${mother.surname || ''}`,
       filteredFathers: [],
       filteredMothers: [],
     };
@@ -110,6 +147,7 @@ export default {
   methods: {
     sendDataToDataBase() {
       const formData = {
+        id: this.personId,
         name: this.name,
         surname: this.surname,
         birth: this.birth,
@@ -117,6 +155,7 @@ export default {
         motherId: this.motherId,
         fatherId: this.fatherId
       };
+      console.log('Wysyłanie danych: idFather: ' + this.fatherId)
       axios.post('/Main/savePerson', formData)
         .then(response => {
           console.log('Response from server: ', response.data);
@@ -125,8 +164,9 @@ export default {
           console.error('Error: ', error);
         });
       console.log('submited');
+      console.log('ID: ' + this.personId);
       this.onReset();
-
+      // this.personsListFlag = true;
     },
     onReset() {
       this.name = '';
@@ -153,6 +193,7 @@ export default {
       this.deathFlag = !this.deathFlag;
     },
     searchItems(flag) {
+      console.log( "Szukam cos ",this.person)
       let searchPerson;
       if(flag === this.fatherFlagConst)
       {

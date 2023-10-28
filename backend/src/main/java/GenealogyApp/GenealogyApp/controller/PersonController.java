@@ -33,6 +33,7 @@ public class PersonController
     @PostMapping("/savePerson")
     ResponseEntity<String> submitFormAddPerson(@RequestBody PersonDTO personDTO)
     {
+
         String name = personDTO.getName();
         String surname = personDTO.getSurname();
         LocalDate birth = personDTO.getBirth();
@@ -44,6 +45,16 @@ public class PersonController
         Person father = personService.findById(fatherId);
 
         Person tempPerson = new Person(name, surname, birth, death, mother, father);
+        System.out.println(personDTO.getName());
+        System.out.println(personDTO.getId());
+        System.out.println(mother);
+        System.out.println(father);
+        System.out.println(motherId);
+        System.out.println(fatherId);
+        if(personDTO.getId() > 0)
+        {
+            tempPerson.setId(personDTO.getId());
+        }
 
         personService.save(tempPerson);
         return null;

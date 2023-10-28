@@ -4,6 +4,7 @@ import java.time.LocalDate;
 
 public class PersonDTO
 {
+    private int id;
     private String name;
     private String surname;
     private int fatherId;
@@ -11,14 +12,25 @@ public class PersonDTO
     private LocalDate birth;
     private LocalDate death;
 
-    public PersonDTO(String name, String surname, int fatherId, int motherId, LocalDate birth, LocalDate death)
+    public PersonDTO(int id, String name, String surname, int fatherId, int motherId, LocalDate birth, LocalDate death)
     {
+        this.id = id;
         this.name = name;
         this.surname = surname;
         this.fatherId = fatherId;
         this.motherId = motherId;
         this.birth = birth;
         this.death = death;
+    }
+
+    public int getId()
+    {
+        return id;
+    }
+
+    public void setId(int id)
+    {
+        this.id = id;
     }
 
     public String getName()
