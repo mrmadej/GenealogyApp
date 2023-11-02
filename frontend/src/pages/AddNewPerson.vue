@@ -89,6 +89,7 @@ import axios from "axios";
 import {isBooleanLike} from "eslint-plugin-vue/lib/utils/ts-utils/typescript";
 
 export default {
+  emits: ['changeToPersonList'],
   props: {
     person: {
       type: Object,
@@ -103,8 +104,20 @@ export default {
     },
   },
   mounted() {
-    console.log('W add new person component: ');
-    //console.log(this.person.id);
+    // console.log('W add new person component: ');
+    // console.log(this.person.birth);
+
+    const birthCheckbox = document.getElementById('birthCheckbox');
+    const deathCheckbox = document.getElementById('deathCheckbox');
+
+    if (this.birth !== null) {
+      this.birthFlag = true;
+      birthCheckbox.checked = true;
+    }
+    if (this.death !== null) {
+      this.deathFlag = true;
+      deathCheckbox.checked = true;
+    }
   },
 
   // inject: {
@@ -132,8 +145,8 @@ export default {
       motherFlagConst: 1,
       name: personData.name || '',
       surname: personData.surname || '',
-      birth: null,
-      death: null,
+      birth: personData.birth || null,
+      death: personData.death || null,
       birthFlag: false,
       deathFlag: false,
       fatherId: father.id || null,
@@ -165,24 +178,38 @@ export default {
         });
       console.log('submited');
       console.log('ID: ' + this.personId);
-      this.onReset();
+
+      this.$emit('changeToPersonList');
+      // this.onReset();
       // this.personsListFlag = true;
     },
     onReset() {
-      this.name = '';
-      this.surname = '';
-      this.birth = null;
-      this.death = null;
+      const personData = this.person || {};
+      const father = personData.father || {};
+      const mother = personData.mother || {};
+
+      this.personId = personData.id || -1;
+      this.name = personData.name || '';
+      this.surname = personData.surname || '';
+      this.birth = personData.birth || null;
+      this.death = personData.death || null;
       this.birthFlag = false;
       this.deathFlag = false;
-      this.searchFather = '';
-      this.searchMother = '';
-      this.fatherId = null;
-      this.motherId = null;
+      this.searchFather = `${father.name || ''} ${father.surname || ''}`;
+      this.searchMother = `${mother.name || ''} ${mother.surname || ''}`;
+      this.fatherId = father.id || null;
+      this.motherId = mother.id || null;
       this.filteredFathers = [];
       this.filteredMothers = [];
-      document.getElementById('birthCheckbox').checked = false;
-      document.getElementById('deathCheckbox').checked = false;
+
+      if (this.birth !== null) {
+        this.birthFlag = true;
+        document.getElementById('birthCheckbox').checked = false;
+      }
+      if (this.death !== null) {
+        this.deathFlag = true;
+        document.getElementById('deathCheckbox').checked = false;
+      }
     },
     birthFlagChanger() {
       this.birth = null;

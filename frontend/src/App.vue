@@ -24,6 +24,7 @@
   <add-new-person
     v-if="addPersonFlag"
     :person="this.person"
+    @changeToPersonList="personsListPanelChanger"
   ></add-new-person>
 </template>
 
