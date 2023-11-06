@@ -90,6 +90,7 @@ import {isBooleanLike} from "eslint-plugin-vue/lib/utils/ts-utils/typescript";
 
 export default {
   emits: ['changeToPersonList'],
+
   props: {
     person: {
       type: Object,
@@ -104,7 +105,7 @@ export default {
     },
   },
   mounted() {
-    // console.log('W add new person component: ');
+    console.log('W add new person component: ');
     // console.log(this.person.birth);
 
     const birthCheckbox = document.getElementById('birthCheckbox');

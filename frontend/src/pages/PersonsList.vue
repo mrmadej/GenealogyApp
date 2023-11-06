@@ -13,6 +13,11 @@
             @click="onEdit(props.row)"
             color="primary"
           />
+          <q-btn
+            icon="delete"
+            @click="onDelete(props.row.id)"
+            color="negative"
+          />
         </q-td>
       </template>
     </q-table>
@@ -67,11 +72,26 @@ export default {
     },
     onEdit(person) {
       // this.personToEdit = row;
-
+      console.log("W edit");
       //this.$router.push({ name: 'AddNewPerson', params: {person: person }})
       //this.$router.push({ path: 'AddNewPerson' });
       this.$emit('editPerson', person);
     },
+    onDelete(id) {
+      axios.delete(`${apiUrl}/deletePerson`, {
+        params: {
+          id: id
+        }
+      })
+        .then(response => {
+          console.log(response)
+          this.fetchPeople();
+        })
+        .then(error => {
+          console.log(error)
+        });
+
+    }
   }
 };
 </script>

@@ -35,6 +35,22 @@ public class PersonService
 
         tempPerson.setMother(null);
         tempPerson.setFather(null);
+        List<Person> children = personRepository.findChildren(id);
+        if(!children.isEmpty())
+        {
+            for(Person child : children)
+            {
+                if(child.getFather().getId() == id)
+                {
+                    child.setFather(null);
+                }
+                else
+                {
+                    child.setMother(null);
+                }
+                save(child);
+            }
+        }
 
         save(tempPerson);
 

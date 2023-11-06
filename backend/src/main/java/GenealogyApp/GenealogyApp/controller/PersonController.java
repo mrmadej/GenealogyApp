@@ -4,6 +4,7 @@ import GenealogyApp.GenealogyApp.dto.PersonDTO;
 import GenealogyApp.GenealogyApp.entity.Person;
 import GenealogyApp.GenealogyApp.service.PersonService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -68,5 +69,12 @@ public class PersonController
         List<Person> personList = personService.findByNameAndSurnameLike(name, surname);
 
         return ResponseEntity.ok(personList);
+    }
+
+    @DeleteMapping("/deletePerson{id}")
+    public ResponseEntity<String> deletePerson(@RequestParam int id)
+    {
+        personService.delete(id);
+        return new ResponseEntity<>("Person with ID " + id + " has been deleted.", HttpStatus.OK);
     }
 }

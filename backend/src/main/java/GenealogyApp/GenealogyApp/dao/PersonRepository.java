@@ -21,4 +21,9 @@ public interface PersonRepository extends JpaRepository<Person, Integer>
     List<Person> findByNameAndSurnameLike(
         @Param("name") String name,
         @Param("surname") String surname);
+
+    @Query("SELECT p FROM Person p WHERE p.father.id = :id OR p.mother.id = :id")
+    List<Person> findChildren(
+            @Param("id") int id
+    );
 }
