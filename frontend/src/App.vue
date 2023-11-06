@@ -19,6 +19,7 @@
   <persons-list
     v-if="personsListFlag"
     @editPerson="editPerson"
+    @renderTree="renderTree"
   ></persons-list>
 
   <add-new-person
@@ -26,6 +27,10 @@
     :person="this.person"
     @changeToPersonList="personsListPanelChanger"
   ></add-new-person>
+  <show-tree
+    v-if="showTreeFlag"
+    :person="this.person"
+  ></show-tree>
 </template>
 
 
@@ -33,12 +38,14 @@
 import axios from'axios';
 import PersonsList from "pages/PersonsList.vue";
 import AddNewPerson from "pages/AddNewPerson.vue";
+import ShowTree from "pages/ShowTree.vue";
 
 
 export default {
   components: {
     PersonsList,
-    AddNewPerson
+    AddNewPerson,
+    ShowTree
   },
   // provide: {
   //   personsListFlag: this.personsListFlag
@@ -47,6 +54,7 @@ export default {
     return {
       personsListFlag: true,
       addPersonFlag: false,
+      showTreeFlag: false,
       person: null,
     };
   },
@@ -72,12 +80,20 @@ export default {
       this.disableFlags();
       this.personsListFlag = true;
     },
+    showTreePanelChanger() {
+      this.disableFlags();
+      this.showTreeFlag = true;
+    },
     editPerson(person)
     {
       this.person = person;
       this.addPersonPanelChanger();
       console.log('W editPerson: ');
       console.log(this.person);
+    },
+    renderTree(person) {
+      this.person = person;
+      this.showTreePanelChanger();
     }
   }
 };

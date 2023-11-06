@@ -14,6 +14,11 @@
             color="primary"
           />
           <q-btn
+            icon="edit"
+            @click="renderTree(props.row)"
+            color="negative"
+          />
+          <q-btn
             icon="delete"
             @click="onDelete(props.row.id)"
             color="negative"
@@ -28,7 +33,7 @@
 import axios from "axios";
 const apiUrl = 'http://localhost:8081/Main'; //process.env.VUE_APP_API_URL;
 export default {
-  emits: ['editPerson'],
+  emits: ['editPerson', 'renderTree'],
   data() {
     return {
       columns : [
@@ -76,6 +81,9 @@ export default {
       //this.$router.push({ name: 'AddNewPerson', params: {person: person }})
       //this.$router.push({ path: 'AddNewPerson' });
       this.$emit('editPerson', person);
+    },
+    renderTree(person) {
+      this.$emit("renderTree", person);
     },
     onDelete(id) {
       axios.delete(`${apiUrl}/deletePerson`, {
