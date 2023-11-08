@@ -1,9 +1,27 @@
 <template>
-  <p>JESTEM DRZEWEM</p>
+  <person-leaf
+    :name="person.name"
+    :surname="person.surname"
+    :birth="person.birth"
+    :death="person.death"
+  ></person-leaf>
+  <div v-if="person.father">
+    <show-tree :person="person.father"></show-tree>
+  </div>
+  <div v-if="person.mother">
+    <show-tree :person="person.mother"></show-tree>
+  </div>
+
 </template>
 
 <script>
+
+import PersonLeaf from "pages/PersonLeaf.vue";
+
 export default {
+  components: {
+    PersonLeaf
+  },
   props: {
     person: {
       type: Object,
